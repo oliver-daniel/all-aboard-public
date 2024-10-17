@@ -1,0 +1,13 @@
+footer.footer {
+  font-size: 0.8rem;
+
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: var(--pico-nav-element-spacing-vertical);
+
+    li {
+      padding-block: 0.25rem;
+    }
+  }
+}
