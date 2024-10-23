@@ -69,8 +69,8 @@ export async function getStaticPaths() {
 
 type Props = {
   page?: BuilderContent;
-  header?: any;
-  footer?: any;
+  header?: BuilderContent;
+  footer?: BuilderContent;
 };
 
 // Define the Page component
@@ -91,7 +91,7 @@ export default function Page({ page, header, footer }: Props) {
         <title>{page?.data?.title}</title>
       </Head>
       {/* Render the Builder page */}
-      <Header sections={header.data.value} />
+      <Header sections={header?.data?.value} />
       <BuilderComponent model="page" content={page || undefined} />
       <Footer>
         <BuilderComponent model="symbol" content={footer} />

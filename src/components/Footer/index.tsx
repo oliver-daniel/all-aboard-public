@@ -8,7 +8,7 @@ export const Footer = ({ children }: Props) => {
   const now = new Date().getFullYear();
   return (
     <footer className={clsx(styles.footer, "container")}>
-      <nav className="grid" role="navigation">
+      <nav role="navigation">
         {children}
       </nav>
       <hr />

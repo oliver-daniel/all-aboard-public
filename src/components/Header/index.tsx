@@ -36,7 +36,10 @@ export const Header = ({ sections }: Props) => {
 
   useEffect(() => {
     const onRouteChangeSuccess = () => {
-      (document.getElementById("menu-btn") as HTMLInputElement).checked = false;
+      const menuBtn = document.getElementById("menu-btn") as HTMLInputElement;
+      if (menuBtn) {
+        menuBtn.checked = false;
+      }
     };
 
     router.events.on("routeChangeComplete", onRouteChangeSuccess);
