@@ -7,8 +7,8 @@ header.navbar {
   background: var(--pico-primary);
 
   :global(.contrast) {
-    --pico-color: var(--pico-primary-inverse);
-    --pico-underline: var(--pico-primary-inverse);
+    --pico-color: var(--pico-primary-inverse) !important;
+    --pico-underline: var(--pico-primary-inverse) !important;
   }
 
   // responsive menu
@@ -28,6 +28,13 @@ header.navbar {
   }
 
   @media screen and (max-width: $lg-breakpoint) {
+    & {
+      // this is a hack to deal with the overscroll nonsense
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
     :global(.nav-icon) {
       display: initial;
       color: var(--pico-primary-inverse);
@@ -36,7 +43,8 @@ header.navbar {
     :global(ul.menu) {
       position: fixed;
       width: 100vw;
-      inset: 50px 0 0 0;
+      /* Magic number, but good enough */
+      inset: 55px 0 0 0;
       z-index: 9;
       /* ANNOYING: this /should/ work to keep the body from scrolling */
       overscroll-behavior-y: contain;
@@ -69,7 +77,10 @@ header.navbar {
       background: transparent;
       border: none;
       padding-inline: unset;
-      filter: none;
+    }
+
+    summary::after {
+      filter: none !important;
     }
 
     li:has(:global(.dropdown)) {
