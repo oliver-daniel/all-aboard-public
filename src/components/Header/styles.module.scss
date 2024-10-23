@@ -1,6 +1,96 @@
+@use "@picocss/pico/scss/settings" as *;
+
+$sm-breakpoint: map-get(map-get($breakpoints, "sm"), "viewport");
+$lg-breakpoint: map-get(map-get($breakpoints, "lg"), "viewport");
+
 header.navbar {
   background: var(--pico-primary);
-  * {
-    color: var(--pico-primary-inverse);
+
+  :global(.contrast) {
+    --pico-color: var(--pico-primary-inverse);
+    --pico-underline: var(--pico-primary-inverse);
+  }
+
+  // responsive menu
+
+  :global(input#menu-btn) {
+    display: none;
+    user-select: none;
+  }
+
+  :global(.nav-icon) {
+    display: none;
+
+    &::before {
+      content: "\2261";
+      margin-inline: 0.5rem;
+    }
+  }
+
+  @media screen and (max-width: $lg-breakpoint) {
+    :global(.nav-icon) {
+      display: initial;
+      color: var(--pico-primary-inverse);
+    }
+
+    :global(ul.menu) {
+      position: fixed;
+      width: 100vw;
+      inset: 50px 0 0 0;
+      z-index: 9;
+      /* ANNOYING: this /should/ work to keep the body from scrolling */
+      overscroll-behavior-y: contain;
+
+      /*Semi-magic, but works at every height*/
+      padding: var(--pico-spacing);
+
+      background: var(--pico-dropdown-background-color);
+
+      flex-direction: column;
+      align-items: flex-start;
+
+      left: -200vw;
+      transition: left var(--pico-transition);
+    }
+
+    :global(ul.menu) li {
+      flex: 0 1;
+      width: 100%;
+    }
+
+    :global(.dropdown) {
+      margin: inherit;
+      width: 100%;
+    }
+
+    :global(.contrast),
+    summary {
+      --pico-color: var(--pico-contrast) !important;
+      background: transparent;
+      border: none;
+      padding-inline: unset;
+      filter: none;
+    }
+
+    li:has(:global(.dropdown)) {
+      padding-inline: unset;
+      // flex: 1 auto;
+      ul {
+        position: relative;
+        box-shadow: none;
+        padding-inline: var(--pico-spacing);
+      }
+    }
+
+    :has(:global(#menu-btn):checked) {
+      :global(.nav-icon)::before {
+        content: "\d7";
+      }
+
+      :global(ul.menu) {
+        left: 0;
+        // z-index: 10;
+      }
+    }
   }
 }

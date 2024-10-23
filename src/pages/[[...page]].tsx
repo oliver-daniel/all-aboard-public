@@ -83,8 +83,6 @@ export default function Page({ page, header, footer }: Props) {
     return <DefaultErrorPage statusCode={404} />;
   }
 
-  console.log(footer);
-
   // If the page content is available, render
   // the BuilderComponent with the page content
   return (
