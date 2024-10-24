@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import DefaultErrorPage from "next/error";
 import Head from "next/head";
 import "../builder-registry";
+import { useAbbrs } from "@/hooks/useAbbrs";
 
 const SkipToContent = dynamic(
   async () => (await import("@/components/SkipToContent")).SkipToContent,
@@ -48,12 +49,21 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
     .toPromise();
 
+  const abbrs = await builder
+    .get("abbreviation", {
+      query: {
+        id: "07b71fb41e6948cdb50a7ed629250871",
+      },
+    })
+    .toPromise();
+
   // Return the page content as props
   return {
     props: {
       page: page ?? null,
       header: header ?? null,
       footer: footer ?? null,
+      abbrs: abbrs ?? null,
     },
     // Revalidate the content every 5 seconds
     revalidate: 5,
@@ -81,17 +91,24 @@ type Props = {
   page?: BuilderContent;
   header?: BuilderContent;
   footer?: BuilderContent;
+  abbrs?: BuilderContent;
 };
 
 // Define the Page component
-export default function Page({ page, header, footer }: Props) {
+export default function Page({ page, header, footer, abbrs }: Props) {
   const isPreviewing = useIsPreviewing();
+
+  const definitions = abbrs?.data?.value;
+
+  useAbbrs(definitions);
 
   // If the page content is not available
   // and not in preview mode, show a 404 error page
   if (!page && !isPreviewing) {
     return <DefaultErrorPage statusCode={404} />;
   }
+
+  console.log(abbrs?.data);
 
   // If the page content is available, render
   // the BuilderComponent with the page content
