@@ -1,0 +1,16 @@
+@use "@picocss/pico/scss/colors" as colors;
+
+
+.alert {
+  border-radius: var(--pico-border-radius);
+  padding: var(--pico-form-element-spacing-vertical)
+    var(--pico-form-element-spacing-horizontal);
+  border-width: var(--pico-border-width);
+  border-style: solid;
+
+  & {
+    border-color: var(--pico-primary-border);
+    color: var(--pico-primary);
+    background-color: colors.$cyan-50;
+  }
+}
