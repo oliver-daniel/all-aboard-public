@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# Disallow Cloudflare contents
+User-agent: *
+Disallow: /cdn-cgi/
+
+# Host
+Host: https://allaboardim.com
+
+# Sitemaps
+Sitemap: https://allaboardim.com/sitemap.xml
