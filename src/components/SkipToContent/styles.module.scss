@@ -1,0 +1,15 @@
+#skip-to-content {
+    position: fixed;
+    top: 25px;
+    left: var(--pico-block-spacing-horizontal);
+  
+    transform: translateX(-150%);
+    transition: transform var(--pico-transition);
+  
+    z-index: 999;
+  
+    &:focus {
+      transform: translateX(0%);
+    }
+  }
+  

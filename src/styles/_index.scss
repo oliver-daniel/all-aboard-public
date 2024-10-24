@@ -2,3 +2,7 @@
   $theme-color: "cyan",
   $semantic-root-element: "#__next"
 );
+
+blockquote {
+  border-color: var(--pico-primary);
+}

@@ -51,7 +51,7 @@ export const Header = ({ sections }: Props) => {
 
   return (
     <header className={styles.navbar}>
-      <nav className="container-fluid">
+      <nav className="container-fluid" aria-label="Navigation banner">
         <input type="checkbox" id="menu-btn" />
         <label className="menu-icon contrast" htmlFor="menu-btn" tabIndex={-1}>
           <span className="nav-icon">Menu</span>

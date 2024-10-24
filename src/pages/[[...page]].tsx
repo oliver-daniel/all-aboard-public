@@ -1,12 +1,19 @@
-import React from "react";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 import { BuilderComponent, builder, useIsPreviewing } from "@builder.io/react";
-import DefaultErrorPage from "next/error";
-import Head from "next/head";
 import { BuilderContent } from "@builder.io/sdk";
 import { GetStaticProps } from "next";
+import dynamic from "next/dynamic";
+import DefaultErrorPage from "next/error";
+import Head from "next/head";
 import "../builder-registry";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+
+const SkipToContent = dynamic(
+  async () => (await import("@/components/SkipToContent")).SkipToContent,
+  {
+    ssr: false,
+  }
+);
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY!);
 
@@ -19,6 +26,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       userAttributes: {
         urlPath: "/" + ((params?.page as string[])?.join("/") || ""),
       },
+      ...(process.env.NODE_ENV === "development" && {
+        cachebust: true,
+      }),
     })
     .toPromise();
 
@@ -90,9 +100,11 @@ export default function Page({ page, header, footer }: Props) {
       <Head>
         <title>{page?.data?.title}</title>
       </Head>
-      {/* Render the Builder page */}
+      <SkipToContent />
       <Header sections={header?.data?.value} />
-      <BuilderComponent model="page" content={page || undefined} />
+      <main id="content">
+        <BuilderComponent model="page" content={page || undefined} />
+      </main>
       <Footer>
         <BuilderComponent model="symbol" content={footer} />
       </Footer>
