@@ -27,12 +27,16 @@ header.navbar {
     }
   }
 
+  summary {
+    padding: unset;
+  }
+
   @media screen and (max-width: $lg-breakpoint) {
     & {
       // this is a hack to deal with the overscroll nonsense
       position: sticky;
       top: 0;
-      z-index: 1;
+      z-index: 99;
     }
 
     :global(.nav-icon) {

@@ -3,6 +3,104 @@
   $semantic-root-element: "#__next"
 );
 
+@use "@picocss/pico/scss/settings";
+@use "@picocss/pico/scss/colors";
+
+$lg-breakpoint: map-get(map-get(settings.$breakpoints, "lg"), "viewport");
+
+/* resets for things I don't find useful */
+:root {
+  --pico-h1-color: unset !important;
+  --pico-background-color: #ddd !important;
+}
+
+/* components */
+abbr[data-tooltip] {
+  $bg: colors.$jade-500;
+  &::before {
+    overflow: visible;
+    white-space: normal;
+    background-color: $bg;
+  }
+  &::after {
+    color: $bg;
+  }
+}
+
 blockquote {
   border-color: var(--pico-primary);
+}
+
+:is(button, [role="button"]).contrast {
+  --pico-color: var(--pico-primary) !important;
+  --pico-border-color: var(--pico-color) !important;
+  --pico-background-color: var(--pico-contrast-inverse);
+
+  --pico-contrast-hover-background: var(--pico-dropdown-hover-background-color);
+}
+
+.bordered {
+  --border-width: 25px;
+
+  &:has(picture) img {
+    padding-bottom: var(--border-width);
+    padding-right: var(--border-width);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    height: calc(100% - var(--border-width));
+    width: calc(100% - var(--border-width));
+
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+
+    background-color: var(--pico-primary-background);
+  }
+}
+
+/* Page specific items.
+Could be placed elsewhere, but keeping it simple for now. */
+.hero {
+  img {
+    filter: grayscale(1);
+    // position: relative;
+  }
+  :has(> picture)::after {
+    content: "";
+    position: absolute;
+    height: calc(100% - var(--border-width));
+    width: calc(100% - var(--border-width));
+
+    //
+    top: 0;
+    left: 0;
+    //
+    background: linear-gradient(
+        270deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(255, 255, 255, 0.75) 75%,
+        rgba(255, 255, 255, 0.8) 100%
+      ),
+      #136368;
+    mix-blend-mode: screen;
+  }
+
+  #hero-content {
+    z-index: 1;
+    section {
+      gap: 1rem;
+    }
+    .builder-text {
+      color: var(--pico-primary) !important;
+    }
+
+    @media screen and (min-width: $lg-breakpoint) {
+      h1 {
+        white-space: nowrap;
+      }
+    }
+  }
 }

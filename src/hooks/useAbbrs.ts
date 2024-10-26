@@ -5,6 +5,6 @@ export const useAbbrs = (data: { [key in string]: string }) =>
     if (typeof document === "undefined" || !data) return;
 
     document.querySelectorAll("abbr").forEach((element) => {
-      element.title = data[element.textContent || ""];
+      element.setAttribute("data-tooltip", data[element.textContent || ""]);
     });
   }, [data]);
