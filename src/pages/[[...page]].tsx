@@ -8,6 +8,9 @@ import DefaultErrorPage from "next/error";
 import Head from "next/head";
 import "../builder-registry";
 import { useAbbrs } from "@/hooks/useAbbrs";
+import { GlossaryItem, GlossaryRepr, usePopover } from "@/hooks/usePopover";
+import { useMemo, useState } from "react";
+import { PopoverContainer } from "@/components/Popover";
 
 const SkipToContent = dynamic(
   async () => (await import("@/components/SkipToContent")).SkipToContent,
@@ -57,6 +60,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
     .toPromise();
 
+  const glossary = await builder.getAll("glossary-definitions");
+
   // Return the page content as props
   return {
     props: {
@@ -64,6 +69,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       header: header ?? null,
       footer: footer ?? null,
       abbrs: abbrs ?? null,
+      glossary: glossary ?? null,
     },
     // Revalidate the content every 5 seconds
     revalidate: 5,
@@ -92,15 +98,23 @@ type Props = {
   header?: BuilderContent;
   footer?: BuilderContent;
   abbrs?: BuilderContent;
+  glossary?: BuilderContent[];
 };
 
 // Define the Page component
-export default function Page({ page, header, footer, abbrs }: Props) {
+export default function Page({ page, header, footer, abbrs, glossary }: Props) {
   const isPreviewing = useIsPreviewing();
+  const [glossaryReprs, setGlossaryReprs] = useState<GlossaryRepr[]>([]);
 
   const definitions = abbrs?.data?.value;
 
+  const glossaryItems = useMemo(
+    () => glossary?.map((res) => res.data) as GlossaryItem[],
+    [glossary]
+  );
+
   useAbbrs(definitions);
+  usePopover(glossaryItems, setGlossaryReprs);
 
   // If the page content is not available
   // and not in preview mode, show a 404 error page
@@ -120,6 +134,7 @@ export default function Page({ page, header, footer, abbrs }: Props) {
       <main id="content">
         <BuilderComponent model="page" content={page || undefined} />
       </main>
+      <PopoverContainer items={glossaryReprs} />
       <Footer>
         <BuilderComponent model="symbol" content={footer} />
       </Footer>

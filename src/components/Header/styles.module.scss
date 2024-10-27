@@ -28,7 +28,7 @@ header.navbar {
   }
 
   summary {
-    padding: unset;
+    padding-inline: calc(var(--pico-nav-link-spacing-horizontal) / 4);
   }
 
   @media screen and (max-width: $lg-breakpoint) {

@@ -6,5 +6,6 @@ export const useAbbrs = (data: { [key in string]: string }) =>
 
     document.querySelectorAll("abbr").forEach((element) => {
       element.setAttribute("data-tooltip", data[element.textContent || ""]);
+      element.setAttribute("tabindex", "0");
     });
   }, [data]);
