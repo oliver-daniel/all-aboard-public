@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 export type GlossaryItem = {
   value: string;
-  definition: React.ReactNode;
+  definition: string;
 };
 
 export type GlossaryRepr = {

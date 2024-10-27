@@ -1,0 +1,39 @@
+@use "@picocss/pico/scss/colors" as colors;
+
+#__next :is(button, [role="button"])[popovertarget] {
+  all: unset;
+  text-decoration: underline dotted var(--pico-primary);
+  cursor: help;
+
+  &:focus {
+    outline: revert !important;
+    outline-offset: revert;
+  }
+}
+
+.content {
+  margin: revert;
+  background-color: colors.$jade-500;
+
+  header {
+    background-color: colors.$jade-400;
+    border-bottom: unset;
+
+    button {
+      filter: brightness(0) invert(1);
+      background: transparent var(--pico-icon-close);
+      background-size: contain;
+      background-position: center;
+      float: right;
+    }
+  }
+
+  :global(.container) {
+    max-width: 60ch;
+  }
+
+  p {
+    color: var(--pico-primary-inverse);
+    margin: unset;
+  }
+}

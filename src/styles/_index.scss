@@ -39,6 +39,17 @@ blockquote {
   --pico-contrast-hover-background: var(--pico-dropdown-hover-background-color);
 }
 
+:is(button, [role="button"])[popovertarget] {
+  all: unset;
+  text-decoration: underline dotted var(--pico-primary);
+  cursor: help;
+
+  &:focus {
+    outline: revert !important;
+    outline-offset: revert;
+  }
+}
+
 .bordered {
   --border-width: 25px;
 
