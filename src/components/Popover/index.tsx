@@ -18,7 +18,9 @@ const PopoverContent = ({
           rel="prev"
           aria-label="Close"
           onClick={() => ref.current?.hidePopover()}
-        ></button>
+        >
+          <span className={styles["close-icon"]}></span>
+        </button>
         <p>
           <strong>{item.defn.value}</strong>
         </p>

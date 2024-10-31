@@ -12,6 +12,7 @@
 }
 
 .content {
+  border: unset;
   margin: revert;
   background-color: colors.$jade-500;
 
@@ -20,11 +21,32 @@
     border-bottom: unset;
 
     button {
-      filter: brightness(0) invert(1);
-      background: transparent var(--pico-icon-close);
-      background-size: contain;
-      background-position: center;
       float: right;
+      background-color: transparent;
+      padding: 5px;
+      border: unset;
+
+      .close-icon {
+        $size: 25px;
+        display: block;
+        width: $size;
+        height: $size;
+
+        mask: var(--pico-icon-close);
+        mask-size: contain;
+        mask-position: center;
+
+        background-color: var(--pico-primary-inverse);
+        transition: var(--pico-transition);
+      }
+
+      &:not(:is(:hover, :focus, :focus-visible)) {
+        .close-icon {
+          background-color: rgb(from var(--pico-primary-inverse) r g b / 0.4);
+        }
+      }
+
+      outline: revert;
     }
   }
 
