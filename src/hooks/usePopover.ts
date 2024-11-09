@@ -20,18 +20,30 @@ export const usePopover = (
   dispatch: React.Dispatch<React.SetStateAction<GlossaryRepr[]>>
 ) =>
   useEffect(() => {
-    if (typeof document === "undefined" || !data) return;
+    if (typeof document === "undefined" || !data.length || !dispatch) return;
 
     const foundOnPage: GlossaryRepr[] = [];
 
     document.querySelectorAll("[popovertarget]").forEach((element) => {
-      const defn = data.find((item) => item.value === element.textContent);
+      if (element.getAttribute("popovertarget")?.startsWith("defn")) {
+        return;
+      }
+      const defn = data.find((item) =>
+        [
+          element.getAttribute("popovertarget") || "",
+          element.textContent || "",
+        ].some(
+          (attr) =>
+            item.value.localeCompare(attr, undefined, {
+              sensitivity: "accent",
+            }) === 0
+        )
+      );
       if (defn) {
         const hash = `defn-${hashed(JSON.stringify(defn))}`;
         foundOnPage.push({ element, defn, hash });
         element.setAttribute("popovertarget", hash);
       }
+      dispatch(foundOnPage);
     });
-
-    dispatch(foundOnPage);
   }, [data, dispatch]);

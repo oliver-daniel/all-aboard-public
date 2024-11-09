@@ -129,3 +129,15 @@ Could be placed elsewhere, but keeping it simple for now. */
     margin: var(--pico-spacing);
   }
 }
+
+form {
+  .result {
+    &.success {
+      color: var(--pico-ins-color);
+    }
+
+    &.error {
+      color: var(--pico-del-color);
+    }
+  }
+}

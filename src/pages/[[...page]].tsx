@@ -12,6 +12,7 @@ import { GlossaryItem, GlossaryRepr, usePopover } from "@/hooks/usePopover";
 import { useMemo, useState } from "react";
 import { PopoverContainer } from "@/components/Popover";
 import { useExternalTooltip } from "@/hooks/useExternalTooltip";
+import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
 
 const SkipToContent = dynamic(
   async () => (await import("@/components/SkipToContent")).SkipToContent,
@@ -37,21 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
     .toPromise();
 
-  const header = await builder
-    .get("navbar-navigation-links", {
-      query: {
-        id: "cc0bc1f22f8b425fb6b68146434dc231",
-      },
-    })
-    .toPromise();
-
-  const footer = await builder
-    .get("symbol", {
-      query: {
-        id: "1d4812c904d741c297a00acc5e747e51",
-      },
-    })
-    .toPromise();
+  const { header, footer } = await fetchLayoutModels(builder);
 
   const abbrs = await builder
     .get("abbreviation", {
@@ -96,11 +83,9 @@ export async function getStaticPaths() {
 
 type Props = {
   page?: BuilderContent;
-  header?: BuilderContent;
-  footer?: BuilderContent;
   abbrs?: BuilderContent;
   glossary?: BuilderContent[];
-};
+} & LayoutModels;
 
 // Define the Page component
 export default function Page({ page, header, footer, abbrs, glossary }: Props) {
@@ -114,6 +99,9 @@ export default function Page({ page, header, footer, abbrs, glossary }: Props) {
     [glossary]
   );
 
+  // TODO:
+  // these work on init load or reload, but
+  // NOT on page transition.
   useAbbrs(definitions);
   usePopover(glossaryItems, setGlossaryReprs);
   useExternalTooltip();
@@ -129,11 +117,11 @@ export default function Page({ page, header, footer, abbrs, glossary }: Props) {
   return (
     <>
       <Head>
-        <title>{page?.data?.title}</title>
+        <title>{`${page?.data?.title} | All Aboard Integrative Medicine`}</title>
       </Head>
       <SkipToContent />
       <Header sections={header?.data?.value} />
-      <main id="content">
+      <main id="content" className="container">
         <BuilderComponent model="page" content={page || undefined} />
       </main>
       <PopoverContainer items={glossaryReprs} />
