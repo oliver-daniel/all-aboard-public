@@ -15,6 +15,7 @@
     "@picocss/pico": "^2.0.6",
     "clsx": "^2.1.0",
     "next": "14.2.15",
+    "nuka-carousel": "^8.1.1",
     "react": "^18",
     "react-dom": "^18",
     "sharp": "^0.33.3"

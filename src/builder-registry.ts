@@ -37,3 +37,11 @@ Builder.registerComponent(
     noWrap: true,
   }
 );
+Builder.registerComponent(
+  withChildren(
+    dynamic(async () => (await import("./components/Carousel")).Carousel)
+  ),
+  {
+    name: "Carousel",
+  }
+);

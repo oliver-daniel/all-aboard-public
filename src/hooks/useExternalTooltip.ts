@@ -4,7 +4,8 @@ export const useExternalTooltip = () =>
   useEffect(() => {
     if (typeof document === "undefined") return;
 
-    document.querySelectorAll("a").forEach((a) => {
+    // "clever" hack to add tooltips to everything but those in the header menu.
+    document.querySelectorAll("a:is(:not(header a))" as "a").forEach((a) => {
       if (a.getAttribute("data-tooltip")) return;
       const isExternal =
         a.getAttribute("target") === "_blank" ||

@@ -1,0 +1,23 @@
+@use "@picocss/pico/scss/settings" as *;
+
+$lg-breakpoint: map-get(map-get($breakpoints, "lg"), "viewport");
+
+.carousel {
+  :global(.nuka-wrapper) > * {
+    margin-inline: calc(var(--pico-spacing) / 2);
+  }
+
+  & ~ :global(.nuka-page-container .nuka-page-indicator) {
+    padding: unset;
+  }
+
+  @media screen and (min-width: $lg-breakpoint) {
+    $button-float: -4rem;
+    :global(.nuka-nav-button-prev) {
+      left: $button-float !important;
+    }
+    :global(.nuka-nav-button-next) {
+      right: $button-float !important;
+    }
+  }
+}
