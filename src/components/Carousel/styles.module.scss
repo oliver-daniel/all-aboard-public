@@ -3,8 +3,8 @@
 $lg-breakpoint: map-get(map-get($breakpoints, "lg"), "viewport");
 
 .carousel {
-  :global(.nuka-wrapper) > * {
-    margin-inline: calc(var(--pico-spacing) / 2);
+  :global(.nuka-wrapper) {
+    gap: 2rem;
   }
 
   & ~ :global(.nuka-page-container .nuka-page-indicator) {

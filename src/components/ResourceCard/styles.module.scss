@@ -1,0 +1,14 @@
+.resourceCard {
+  flex: 1;
+  min-width: max(45%, 350px);
+
+  ul li {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+
+    & + li {
+      margin-top: var(--pico-spacing);
+    }
+  }
+}

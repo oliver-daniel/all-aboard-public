@@ -14,6 +14,17 @@ $lg-breakpoint: map-get(map-get(settings.$breakpoints, "lg"), "viewport");
   --pico-background-color: #ddd !important;
 }
 
+main#content {
+  padding-block: 4rem;
+}
+
+[data-builder-component="page"] > .builder-blocks {
+  display: block;
+  > .builder-block {
+    display: block;
+  }
+}
+
 .builder-columns {
   row-gap: var(--pico-spacing);
 }

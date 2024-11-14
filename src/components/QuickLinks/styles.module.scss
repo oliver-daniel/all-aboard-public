@@ -1,0 +1,19 @@
+@use "@picocss/pico/scss/settings" as *;
+
+$lg-breakpoint: map-get(map-get($breakpoints, "lg"), "viewport");
+
+.quickLinks {
+  position: relative;
+  z-index: 1;
+
+  nav a {
+    display: block;
+    padding-block: 0.25rem;
+  }
+
+
+  @media screen and (min-width: $lg-breakpoint) {
+    min-width: 40%;
+    float: right;
+    margin-inline-start: 2rem;
+  }}

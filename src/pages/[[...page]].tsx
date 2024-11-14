@@ -13,6 +13,7 @@ import { useMemo, useState } from "react";
 import { PopoverContainer } from "@/components/Popover";
 import { useExternalTooltip } from "@/hooks/useExternalTooltip";
 import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
+import { useH2IDs } from "@/hooks/useH2IDs";
 
 const SkipToContent = dynamic(
   async () => (await import("@/components/SkipToContent")).SkipToContent,
@@ -105,6 +106,7 @@ export default function Page({ page, header, footer, abbrs, glossary }: Props) {
   useAbbrs(definitions);
   usePopover(glossaryItems, setGlossaryReprs);
   useExternalTooltip();
+  useH2IDs();
 
   // If the page content is not available
   // and not in preview mode, show a 404 error page
