@@ -1,12 +1,8 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
-import {
-  BuilderComponent,
-  BuilderContent,
-  useIsPreviewing,
-} from "@builder.io/react";
-import { builder } from "@builder.io/sdk";
+import { BuilderComponent, useIsPreviewing } from "@builder.io/react";
+import { builder, BuilderContent } from "@builder.io/sdk";
 import { GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import DefaultErrorPage from "next/error";
@@ -22,7 +18,7 @@ const SkipToContent = dynamic(
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY!);
 
 export async function getStaticPaths() {
-  const testimonials = await builder.getAll("testimonials", {
+  const testimonials = await builder.getAll("testimonial", {
     fields: "data.url",
     options: { noTargeting: true },
   });
