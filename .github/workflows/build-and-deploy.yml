@@ -24,7 +24,6 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          environment: preview
           command: pages deploy out --project-name=all-aboard
     
       
