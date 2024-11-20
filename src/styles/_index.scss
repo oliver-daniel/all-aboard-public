@@ -11,7 +11,7 @@ $lg-breakpoint: map-get(map-get(settings.$breakpoints, "lg"), "viewport");
 /* resets for things I don't find useful */
 :root {
   --pico-h1-color: unset !important;
-  --pico-background-color: #ddd !important;
+  --pico-background-color: white !important;
 }
 
 main#content {

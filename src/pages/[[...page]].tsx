@@ -1,19 +1,20 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { BuilderComponent, builder, useIsPreviewing } from "@builder.io/react";
+import { PopoverContainer } from "@/components/Popover";
+import { useAbbrs } from "@/hooks/useAbbrs";
+import { useExternalTooltip } from "@/hooks/useExternalTooltip";
+import { useH2IDs } from "@/hooks/useH2IDs";
+import { GlossaryItem, GlossaryRepr, usePopover } from "@/hooks/usePopover";
+import { GoogleAnalytics } from "@/lib/ga4";
+import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
+import { builder, BuilderComponent, useIsPreviewing } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 import { GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import DefaultErrorPage from "next/error";
 import Head from "next/head";
-import "../builder-registry";
-import { useAbbrs } from "@/hooks/useAbbrs";
-import { GlossaryItem, GlossaryRepr, usePopover } from "@/hooks/usePopover";
 import { useMemo, useState } from "react";
-import { PopoverContainer } from "@/components/Popover";
-import { useExternalTooltip } from "@/hooks/useExternalTooltip";
-import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
-import { useH2IDs } from "@/hooks/useH2IDs";
+import "../builder-registry";
 
 const SkipToContent = dynamic(
   async () => (await import("@/components/SkipToContent")).SkipToContent,
@@ -130,6 +131,9 @@ export default function Page({ page, header, footer, abbrs, glossary }: Props) {
       <Footer>
         <BuilderComponent model="symbol" content={footer} />
       </Footer>
+      {process.env.NODE_ENV !== "development" && (
+        <GoogleAnalytics gtmId={process.env.NEXT_PUBLIC_GA4_ID!} />
+      )}
     </>
   );
 }
