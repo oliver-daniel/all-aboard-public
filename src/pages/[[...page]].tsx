@@ -1,27 +1,17 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { PopoverContainer } from "@/components/Popover";
-import { useAbbrs } from "@/hooks/useAbbrs";
-import { useExternalTooltip } from "@/hooks/useExternalTooltip";
-import { useH2IDs } from "@/hooks/useH2IDs";
-import { GlossaryItem, GlossaryRepr, usePopover } from "@/hooks/usePopover";
-import { GoogleAnalytics } from "@/lib/ga4";
-import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
-import { builder, BuilderComponent, useIsPreviewing } from "@builder.io/react";
+import { BuilderComponent, builder, Builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 import { GetStaticProps } from "next";
-import dynamic from "next/dynamic";
 import DefaultErrorPage from "next/error";
 import Head from "next/head";
-import { useMemo, useState } from "react";
 import "../builder-registry";
-
-const SkipToContent = dynamic(
-  async () => (await import("@/components/SkipToContent")).SkipToContent,
-  {
-    ssr: false,
-  }
-);
+import { useAbbrs } from "@/hooks/useAbbrs";
+import { GlossaryItem, GlossaryRepr, usePopover } from "@/hooks/usePopover";
+import { useMemo, useState } from "react";
+import { PopoverContainer } from "@/components/Popover";
+import { useExternalTooltip } from "@/hooks/useExternalTooltip";
+import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
+import { useH2IDs } from "@/hooks/useH2IDs";
+import { GoogleAnalytics } from "@/lib/ga4";
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY!);
 
@@ -56,10 +46,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       page: page ?? null,
-      header: header ?? null,
-      footer: footer ?? null,
       abbrs: abbrs ?? null,
       glossary: glossary ?? null,
+      layoutProps: { header: header ?? null, footer: footer ?? null },
     },
     // Revalidate the content every 5 seconds
     ...(!process.env.EXPORT && { revalidate: 5 }),
@@ -87,11 +76,11 @@ type Props = {
   page?: BuilderContent;
   abbrs?: BuilderContent;
   glossary?: BuilderContent[];
-} & LayoutModels;
+  layoutProps?: LayoutModels;
+};
 
 // Define the Page component
-export default function Page({ page, header, footer, abbrs, glossary }: Props) {
-  const isPreviewing = useIsPreviewing();
+export default function Page({ page, abbrs, glossary }: Props) {
   const [glossaryReprs, setGlossaryReprs] = useState<GlossaryRepr[]>([]);
 
   const definitions = abbrs?.data?.value;
@@ -111,7 +100,7 @@ export default function Page({ page, header, footer, abbrs, glossary }: Props) {
 
   // If the page content is not available
   // and not in preview mode, show a 404 error page
-  if (!page && !isPreviewing) {
+  if (!page && !Builder.isEditing && !Builder.isPreviewing) {
     return <DefaultErrorPage statusCode={404} />;
   }
 
@@ -122,15 +111,10 @@ export default function Page({ page, header, footer, abbrs, glossary }: Props) {
       <Head>
         <title>{`${page?.data?.title} | All Aboard Integrative Medicine`}</title>
       </Head>
-      <SkipToContent />
-      <Header sections={header?.data?.value} />
       <main id="content" className="container">
         <BuilderComponent model="page" content={page || undefined} />
       </main>
       <PopoverContainer items={glossaryReprs} />
-      <Footer>
-        <BuilderComponent model="symbol" content={footer} />
-      </Footer>
       {process.env.NODE_ENV !== "development" && (
         <GoogleAnalytics gtmId={process.env.NEXT_PUBLIC_GA4_ID!} />
       )}
