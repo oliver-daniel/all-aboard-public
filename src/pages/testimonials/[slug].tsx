@@ -1,10 +1,8 @@
-import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
-import { BuilderComponent, Builder } from "@builder.io/react";
-import { builder, BuilderContent } from "@builder.io/sdk";
+import { fetchLayoutModels } from "@/util/layout-models";
+import { builder } from "@builder.io/sdk";
 import { GetStaticProps } from "next";
-import DefaultErrorPage from "next/error";
 
-import Head from "next/head";
+import Page from "../[[...page]]";
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY!);
 
@@ -33,7 +31,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      testimonial: testimonial ?? null,
+      page: testimonial ?? null,
       layoutProps: { header: header ?? null, footer: footer ?? null },
     },
     // Revalidate the content every 5 seconds
@@ -41,24 +39,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-type Props = {
-  testimonial?: BuilderContent;
-  layoutProps?: LayoutModels;
-};
-
-export default function TestimonialPage({ testimonial }: Props) {
-  if (!testimonial && !Builder.isEditing && !Builder.isPreviewing) {
-    return <DefaultErrorPage statusCode={404} />;
-  }
-
-  return (
-    <>
-      <Head>
-        <title>{testimonial?.data?.title}</title>
-      </Head>
-      <main id="content" className="container">
-        <BuilderComponent model="testimonial" content={testimonial} />
-      </main>
-    </>
-  );
-}
+export default Page;

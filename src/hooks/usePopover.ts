@@ -16,11 +16,11 @@ const hashed = (value: crypto.BinaryLike) =>
   crypto.createHash("md5").update(value).digest("hex");
 
 export const usePopover = (
-  data: GlossaryItem[],
-  dispatch: React.Dispatch<React.SetStateAction<GlossaryRepr[]>>
+  data?: GlossaryItem[],
+  dispatch?: React.Dispatch<React.SetStateAction<GlossaryRepr[]>>
 ) =>
   useEffect(() => {
-    if (typeof document === "undefined" || !data.length || !dispatch) return;
+    if (typeof document === "undefined" || !data?.length || !dispatch) return;
 
     const foundOnPage: GlossaryRepr[] = [];
 

@@ -1,7 +1,6 @@
-import { BuilderComponent, builder, Builder } from "@builder.io/react";
+import { BuilderComponent, builder } from "@builder.io/react";
 import { BuilderContent } from "@builder.io/sdk";
 import { GetStaticProps } from "next";
-import DefaultErrorPage from "next/error";
 import Head from "next/head";
 import "../builder-registry";
 import { useAbbrs } from "@/hooks/useAbbrs";
@@ -30,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
     .toPromise();
 
-  const { header, footer } = await fetchLayoutModels(builder);
+  const { header, footer, _404 } = await fetchLayoutModels(builder);
 
   const abbrs = await builder
     .get("abbreviation", {
@@ -48,7 +47,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       page: page ?? null,
       abbrs: abbrs ?? null,
       glossary: glossary ?? null,
-      layoutProps: { header: header ?? null, footer: footer ?? null },
+      layoutProps: {
+        header: header ?? null,
+        footer: footer ?? null,
+        _404: _404 ?? null,
+      },
     },
     // Revalidate the content every 5 seconds
     ...(!process.env.EXPORT && { revalidate: 5 }),
@@ -98,18 +101,14 @@ export default function Page({ page, abbrs, glossary }: Props) {
   useExternalTooltip();
   useH2IDs();
 
-  // If the page content is not available
-  // and not in preview mode, show a 404 error page
-  if (!page && !Builder.isEditing && !Builder.isPreviewing) {
-    return <DefaultErrorPage statusCode={404} />;
-  }
-
   // If the page content is available, render
   // the BuilderComponent with the page content
   return (
     <>
       <Head>
-        <title>{`${page?.data?.title} | All Aboard Integrative Medicine`}</title>
+        <title>
+          {`${page?.data?.title} | All Aboard Integrative Medicine`}
+        </title>
       </Head>
       <main id="content" className="container">
         <BuilderComponent model="page" content={page || undefined} />
