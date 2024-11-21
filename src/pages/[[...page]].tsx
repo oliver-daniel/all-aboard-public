@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
     .toPromise();
 
-  const { header, footer, _404 } = await fetchLayoutModels(builder);
+  const layoutProps = await fetchLayoutModels(builder);
 
   const abbrs = await builder
     .get("abbreviation", {
@@ -47,11 +47,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       page: page ?? null,
       abbrs: abbrs ?? null,
       glossary: glossary ?? null,
-      layoutProps: {
-        header: header ?? null,
-        footer: footer ?? null,
-        _404: _404 ?? null,
-      },
+      layoutProps,
     },
     // Revalidate the content every 5 seconds
     ...(!process.env.EXPORT && { revalidate: 5 }),

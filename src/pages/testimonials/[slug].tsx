@@ -27,12 +27,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
     .toPromise();
 
-  const { header, footer } = await fetchLayoutModels(builder);
+  const layoutProps = await fetchLayoutModels(builder);
 
   return {
     props: {
       page: testimonial ?? null,
-      layoutProps: { header: header ?? null, footer: footer ?? null },
+      layoutProps,
     },
     // Revalidate the content every 5 seconds
     ...(!process.env.EXPORT && { revalidate: 5 }),

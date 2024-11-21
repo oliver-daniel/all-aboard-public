@@ -3,7 +3,6 @@ import type { Builder, BuilderContent } from "@builder.io/sdk";
 export type LayoutModels = {
   header?: BuilderContent;
   footer?: BuilderContent;
-  _404?: BuilderContent;
 };
 
 export const fetchLayoutModels = async (builder: Builder) => {
@@ -22,10 +21,5 @@ export const fetchLayoutModels = async (builder: Builder) => {
         },
       })
       .toPromise(),
-    _404: await builder.get("symbol", {
-      query: {
-        id: "716473294b3b4fc993d3e31a2ae1bdc0",
-      },
-    }),
   } as LayoutModels;
 };
