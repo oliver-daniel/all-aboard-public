@@ -44,6 +44,6 @@ export const usePopover = (
         foundOnPage.push({ element, defn, hash });
         element.setAttribute("popovertarget", hash);
       }
-      dispatch(foundOnPage);
     });
+    dispatch(foundOnPage);
   }, [data, dispatch]);

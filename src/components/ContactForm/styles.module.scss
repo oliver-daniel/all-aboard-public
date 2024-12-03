@@ -1,0 +1,35 @@
+@use "@picocss/pico/scss/settings" as *;
+
+$lg-breakpoint: map-get(map-get($breakpoints, "lg"), "viewport");
+
+$gap: var(--pico-grid-column-gap);
+
+form.contactForm {
+  fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: $gap;
+    justify-content: space-between;
+  }
+
+  @media screen and (min-width: $lg-breakpoint) {
+    :has(+ label),
+    label {
+      flex-basis: calc(50% - $gap / 0.8);
+    }
+
+    label {
+      width: 49%;
+    }
+  }
+
+  label {
+    width: 100%;
+    > input {
+      margin-top: unset;
+    }
+    small {
+      margin-bottom: unset;
+    }
+  }
+}

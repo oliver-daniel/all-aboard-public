@@ -119,3 +119,11 @@ Builder.registerComponent(
     ],
   }
 );
+
+Builder.registerComponent(
+  dynamic(async () => (await import("./components/ContactForm")).ContactForm),
+  {
+    name: "Contact Form",
+    // noWrap: true,
+  }
+);

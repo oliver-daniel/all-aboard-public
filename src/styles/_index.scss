@@ -11,11 +11,15 @@ $lg-breakpoint: map-get(map-get(settings.$breakpoints, "lg"), "viewport");
 /* resets for things I don't find useful */
 :root {
   --pico-h1-color: unset !important;
-  --pico-background-color: white !important;
+  --pico-background-color: #{colors.$zinc-100} !important;
 }
 
 main#content {
   padding-block: 4rem;
+
+  div {
+    line-height: var(--pico-line-height);
+  }
 }
 
 [data-builder-component="page"] > .builder-blocks {
