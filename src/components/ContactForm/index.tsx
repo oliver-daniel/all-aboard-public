@@ -1,22 +1,13 @@
+import { FormState, FormValues, useContactForm } from "@/lib/contact";
+import clsx from "clsx";
 import styles from "./styles.module.scss";
-
-type FormState = {
-  "contact.name": string;
-  "contact.email": string;
-  "contact.phone": string;
-
-  "patient.name": string;
-  "patient.dob": string;
-
-  message?: string;
-};
 
 type Field = {
   props: Partial<React.HTMLProps<HTMLInputElement>>;
 };
 
 const FIELDSETS: Array<{
-  [key in keyof FormState]?: Field;
+  [key in keyof FormValues]?: Field;
 }> = [
   {
     "contact.name": {
@@ -65,37 +56,72 @@ const FIELDSETS: Array<{
   },
 ];
 
-const renderField = ({ props }: Field, key: string) =>
+const renderField = ({ name, props }: Field & { name: string }, key: string) =>
   props.type === "textarea" ? (
     <textarea
+      name={name}
       key={key}
       rows={4}
       {...(props as React.HTMLProps<HTMLTextAreaElement>)}
     />
   ) : props.type === "date" ? (
     <label>
-      <input aria-describedby={`${props.name}-label`} key={key} {...props} />
-      <small id={`${props.name}-label`}>{props.placeholder}</small>
+      <input
+        name={name}
+        aria-describedby={`${name}-label`}
+        key={key}
+        {...props}
+      />
+      <small id={`${name}-label`}>{props.placeholder}</small>
     </label>
   ) : (
-    <input key={key} {...props} />
+    <input name={name} key={key} {...props} />
   );
 
-export const ContactForm = () => {
-  const disabled = false;
+type Props = {
+  disabledMessage?: React.ReactNode;
+  successMessage?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+};
+
+const BottomContent = ({
+  state,
+  ...messages
+}: Props & { state: FormState }) => {
+  switch (state.state) {
+    case "default":
+      return null;
+    case "disabled":
+      return <small>{messages.disabledMessage}</small>;
+    case "submitting":
+      return <progress />;
+    default:
+      return (
+        <small className={clsx(styles.result, styles[state.state])}>
+          {messages[`${state.state}Message` as keyof typeof messages]}
+        </small>
+      );
+  }
+};
+
+export const ContactForm = ({ ...messages }: Props) => {
+  const { state, handleSubmit } = useContactForm();
+  const disabled = ["disabled", "submitting"].includes(state.state);
+
   return (
-    <form className={styles.contactForm}>
+    <form className={styles.contactForm} onSubmit={handleSubmit}>
       <input type="text" name="_honey" style={{ display: "none" }} />
       {FIELDSETS.map((fs, i) => (
         <fieldset disabled={disabled} key={`fieldset-${i}`}>
           {Object.entries(fs).map(([name, props]) =>
-            renderField(props, `field-${name}`)
+            renderField({ name, ...props }, `field-${name}`)
           )}
         </fieldset>
       ))}
       <button type="submit" disabled={disabled}>
         Submit
       </button>
+      <BottomContent state={state} {...messages} />
     </form>
   );
 };

@@ -121,9 +121,33 @@ Builder.registerComponent(
 );
 
 Builder.registerComponent(
-  dynamic(async () => (await import("./components/ContactForm")).ContactForm),
+  withChildren(
+    dynamic(async () => (await import("./components/ContactForm")).ContactForm)
+  ),
   {
     name: "Contact Form",
-    // noWrap: true,
+    inputs: [
+      {
+        name: "disabledMessage",
+        type: "string",
+        meta: {
+          ts: "ReactNode",
+        },
+      },
+      {
+        name: "successMessage",
+        type: "string",
+        meta: {
+          ts: "ReactNode",
+        },
+      },
+      {
+        name: "errorMessage",
+        type: "string",
+        meta: {
+          ts: "ReactNode",
+        },
+      },
+    ],
   }
 );

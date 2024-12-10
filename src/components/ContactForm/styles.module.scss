@@ -12,6 +12,15 @@ form.contactForm {
     justify-content: space-between;
   }
 
+  .result{
+    &.success {
+      color: var(--pico-ins-color);
+    }
+    &.error {
+      color: var(--pico-del-color);
+    }
+  }
+
   @media screen and (min-width: $lg-breakpoint) {
     :has(+ label),
     label {
