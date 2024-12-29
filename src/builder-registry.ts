@@ -50,7 +50,7 @@ Builder.registerComponent(
 Builder.registerComponent(
   withChildren(
     dynamic(async () => (await import("./components/QuickLinks")).QuickLinks, {
-      ssr: false,
+      ssr: true,
     })
   ),
   {

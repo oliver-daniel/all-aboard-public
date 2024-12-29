@@ -9,7 +9,7 @@ import { useMemo, useState } from "react";
 import { PopoverContainer } from "@/components/Popover";
 import { useExternalTooltip } from "@/hooks/useExternalTooltip";
 import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
-import { useH2IDs } from "@/hooks/useH2IDs";
+// import { useH2IDs } from "@/hooks/useH2IDs";
 import { GoogleAnalytics } from "@/lib/ga4";
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY!);
@@ -23,9 +23,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       userAttributes: {
         urlPath: "/" + ((params?.page as string[])?.join("/") || ""),
       },
-      ...(process.env.NODE_ENV === "development" && {
-        cachebust: true,
-      }),
+      cachebust: true,
+      // ...(process.env.NODE_ENV === "development" && {
+      //   cachebust: true,
+      // }),
     })
     .toPromise();
 
@@ -95,7 +96,7 @@ export default function Page({ page, abbrs, glossary }: Props) {
   useAbbrs(definitions);
   usePopover(glossaryItems, setGlossaryReprs);
   useExternalTooltip();
-  useH2IDs();
+  // useH2IDs();
 
   // If the page content is available, render
   // the BuilderComponent with the page content
