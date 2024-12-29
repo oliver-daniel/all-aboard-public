@@ -9,7 +9,7 @@ import { useMemo, useState } from "react";
 import { PopoverContainer } from "@/components/Popover";
 import { useExternalTooltip } from "@/hooks/useExternalTooltip";
 import { fetchLayoutModels, LayoutModels } from "@/util/layout-models";
-// import { useH2IDs } from "@/hooks/useH2IDs";
+import { useH2IDs } from "@/hooks/useH2IDs";
 import { GoogleAnalytics } from "@/lib/ga4";
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY!);
@@ -96,7 +96,7 @@ export default function Page({ page, abbrs, glossary }: Props) {
   useAbbrs(definitions);
   usePopover(glossaryItems, setGlossaryReprs);
   useExternalTooltip();
-  // useH2IDs();
+  useH2IDs(page);
 
   // If the page content is available, render
   // the BuilderComponent with the page content

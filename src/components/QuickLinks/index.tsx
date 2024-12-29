@@ -1,4 +1,6 @@
 import styles from "./styles.module.scss";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export type Props = {
   selector?: string;
@@ -6,22 +8,23 @@ export type Props = {
 };
 
 export const QuickLinks = ({ children }: Props) => {
-  // const router = useRouter();
-  // const items =
-  //   useMemo(() => {
-  //     if (typeof document === "undefined") return;
-  //     const elements = document.querySelectorAll(selector);
-  //     return Array.from(elements).map((element) => [
-  //       element.id,
-  //       element.textContent,
-  //     ]);
-  //   }, [selector, router.asPath]) ?? [];
+  const [items, setItems] = useState<[string, string | null][]>([]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const elements = document.querySelectorAll("h2");
+
+    setItems(
+      Array.from(elements).map((element) => [element.id, element.textContent])
+    );
+  }, []);
+
   return (
     <aside className={styles.quickLinks}>
       <article>
         {children}
         <nav>
-          {/* {items ? (
+          {items?.length ? (
             items.map(([slug, textContent]) => (
               <Link key={slug} href={`#${slug}`}>
                 {textContent}
@@ -29,7 +32,7 @@ export const QuickLinks = ({ children }: Props) => {
             ))
           ) : (
             <progress />
-          )} */}
+          )}
         </nav>
       </article>
     </aside>
