@@ -1,16 +1,15 @@
 import styles from "./styles.module.scss";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import Link from "next/link";
 
 export type Props = {
-  selector?: string;
   children?: React.ReactNode;
 };
 
 export const QuickLinks = ({ children }: Props) => {
   const [items, setItems] = useState<[string, string | null][]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof document === "undefined") return;
     const elements = document.querySelectorAll("h2");
 
