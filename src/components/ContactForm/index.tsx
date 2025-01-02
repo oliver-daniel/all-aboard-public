@@ -110,7 +110,7 @@ export const ContactForm = ({ ...messages }: Props) => {
 
   return (
     <form className={styles.contactForm} onSubmit={handleSubmit}>
-      <input type="text" name="_honey" style={{ display: "none" }} />
+      <input type="checkbox" name="botcheck" style={{ display: "none" }} />
       {FIELDSETS.map((fs, i) => (
         <fieldset disabled={disabled} key={`fieldset-${i}`}>
           {Object.entries(fs).map(([name, props]) =>
