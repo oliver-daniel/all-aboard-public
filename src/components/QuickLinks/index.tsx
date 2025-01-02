@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import { useLayoutEffect, useState } from "react";
 import Link from "next/link";
+import slugify from "@/util/slugify";
 
 export type Props = {
   children?: React.ReactNode;
@@ -14,7 +15,10 @@ export const QuickLinks = ({ children }: Props) => {
     const elements = document.querySelectorAll("h2");
 
     setItems(
-      Array.from(elements).map((element) => [element.id, element.textContent])
+      Array.from(elements).map((element) => [
+        element.id || slugify(element.textContent!),
+        element.textContent,
+      ])
     );
   }, []);
 
